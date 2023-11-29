@@ -1,5 +1,16 @@
 import mongoose, { Schema, model } from "mongoose";
-const userSchema = new Schema({
+
+interface IUser {
+    username: string | null,
+    email: string | null,
+    authentication: {
+        password: string | null,
+        salt?: string | null,
+        sessionToken?: string | null
+    }
+};
+
+const userSchema = new Schema<IUser>({
     username: { type: String, required: true },
     email: { type: String, required: true },
     authentication: {
@@ -8,4 +19,5 @@ const userSchema = new Schema({
         sessionToken: { type: String, select: false },
     }
 });
-export const UserModel = model('users', userSchema);
+
+export const UserModel = model<IUser>('users', userSchema);
